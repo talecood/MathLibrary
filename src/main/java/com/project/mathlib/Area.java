@@ -19,6 +19,7 @@ public class Area {
 		}
 		return (int) Math.pow(a,2);
 	}
+	
 	public int rectangleArea(int a,int b) {
 		if(a<0 || b<0) {
 			throw new IllegalArgumentException(POSITIVE_BASE+POSITIVE_HEIGHT);
@@ -26,24 +27,28 @@ public class Area {
 		return a*b;
 	}
 	
+	
 	public double circleArea(double r) {
 		if(r<0) {
 			throw new IllegalArgumentException(POSITIVE_RADIUS);
 		}
 		return(Math.pow(r, 2)*PI);
 	}
+	
 	public double triangleArea(double height,double base) {
 		if(height<0||base<0) {
 			throw new IllegalArgumentException(POSITIVE_BASE+POSITIVE_HEIGHT);
 		}
 		return (base*height)/2;
 	}
+	
 	public double parallelogramArea(double base,double height) {
 		if(base<0||height<0) {
 			throw new IllegalArgumentException(POSITIVE_BASE+POSITIVE_HEIGHT);
 		}
 		return base*height;
 	}
+	
 	public double trapeziumArea(double upperBase,double lowerBase,double height) {
 		if(upperBase<0 || lowerBase<0 || height<0) {
 			throw new IllegalArgumentException(POSITIVE_BASE+POSITIVE_HEIGHT);

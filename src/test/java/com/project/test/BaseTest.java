@@ -1,18 +1,27 @@
 package com.project.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import junit.framework.Assert;
+import org.junit.jupiter.api.TestReporter;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+
 import com.project.mathlib.Base;
 
 
@@ -32,8 +41,11 @@ public class BaseTest {
 	 void setup(TestInfo testinfo,TestReporter testreport) {
 		this.testinfo = testinfo;
 		this.testreport = testreport;
-		
 		base= new Base();
+	}
+	@AfterEach
+	void afterEach() {
+		  testreport.publishEntry("Running " + testinfo.getDisplayName() + " with tags " + testinfo.getTags());
 	}
 
 	@Tag("Math")
@@ -83,7 +95,8 @@ public class BaseTest {
 	@Tag("Math")
 	@Test
 	@DisplayName("Division Test (/)")
-	void testDivision() {
+	void testDivision() throws Exception{
+		
 		assertAll(
 				() -> assertEquals(100,base.division(300, 3),"Test should return correctly (/)"),
 				() -> assertEquals(25,base.division(75, 3),"Test should return correctly (/)"),
@@ -94,8 +107,41 @@ public class BaseTest {
 				() -> assertEquals(-100,base.division(-500, 5),"Test should return correctly (/)"),
 				() -> assertEquals(100,base.division(-400, -4),"Test should return correctly (/)")
 				);
-		
 	}
+	
+	@Tag("Exception")
+	@Test
+	@DisplayName("Divide by Zero Test For Division (int/0)")
+	void testDivideByZero() {
+		Integer numerator = (int) Math.random();
+	
+		 assertThrows(ArithmeticException.class, ()-> base.division(numerator,0));
+	}
+	
+	
+	@SuppressWarnings("static-access")
+	@Tag("Exception")
+	@Test
+	@DisplayName("NullPointer Test For Division (null/int)")
+	void testCheckNullParametersOrNullResult() throws Exception{
+		
+	Base baseM = Mockito.mock(Base.class);
+		
+	assertThat(baseM).isNotNull();
+	
+	Mockito.when(baseM.division(null, null)).thenThrow(new NullPointerException());
+	
+	
+	doThrow(new NullPointerException()).when(baseM).division(anyInt(),eq(null));
+	doThrow(new NullPointerException()).when(baseM).division(eq(null), anyInt());
+	doThrow(new NullPointerException()).when(baseM).division(eq(null), eq(null));
+
+	assertThrows(NullPointerException.class,()-> baseM.division(5, null));
+	assertThrows(NullPointerException.class,()-> baseM.division(null, 5));
+	assertThrows(NullPointerException.class,()-> baseM.division(null, null));
+
+	}
+	
 }
 	
 

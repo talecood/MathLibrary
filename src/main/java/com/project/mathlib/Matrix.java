@@ -1,6 +1,6 @@
 package com.project.mathlib;
 
-
+import java.util.Scanner;
 
 public class Matrix {
 
@@ -45,13 +45,13 @@ public class Matrix {
 		return result;	
 	}
 	
-	/*public Matrix MatrixTransactions(int[][] matrix2) {
+	public Matrix MatrixOperations(int[][] matrix2) {
 		int option1;
 		int[][] newMatrix = new int[matrix.length][matrix.length];
-		Scanner option = new Scanner(System.in);
-		System.out.println("1. Addition\n2. Subtraction\n3. Multiplication\n4. Division");
-		option1 = option.nextInt();
-		
+		try (Scanner option = new Scanner(System.in)) {
+			System.out.println("1. Addition\n2. Subtraction");
+			option1 = option.nextInt();
+		}
 		switch (option1) {
 		case 1:
 			for(int i =0;i<matrix.length;i++) {
@@ -67,28 +67,11 @@ public class Matrix {
 					newMatrix[i][j]=this.matrix[i][j]-matrix2[i][j];
 				}
 			}
-			break;
-			
-		case 3:
-			for(int i =0;i<matrix.length;i++) {
-				for(int j=0;j<matrix.length;j++) {
-					newMatrix[i][j]=this.matrix[i][j]*matrix2[i][j];
-				}
-			}
-			break;
-			
-		case 4:
-			for(int i =0;i<matrix.length;i++) {
-				for(int j=0;j<matrix.length;j++) {
-					newMatrix[i][j]=this.matrix[i][j]/matrix2[i][j];
-				}
-			}
-			break;
-			
+			break;	
 		}
 		return new Matrix(newMatrix);
 	}
-	*/
-	
 	
 }
+	
+
