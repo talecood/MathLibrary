@@ -1,10 +1,11 @@
-package com.project.test;
+package com.project.mathlib.test;
 
-import com.project.mathlib.VectorProducts;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
-public class VectorProductsTest {
+import com.project.mathlib.main.VectorProducts;
+
+class VectorProductsTest {
     VectorProducts vectorProducts;
     TestInfo testInfo;
     TestReporter testReporter;

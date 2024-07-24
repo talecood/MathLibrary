@@ -1,5 +1,6 @@
-package com.project.test;
+package com.project.mathlib.test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +10,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static com.googlecode.catchexception.CatchException.catchException;
+import static com.googlecode.catchexception.CatchException.caughtException;
+import static com.googlecode.catchexception.apis.CatchExceptionHamcrestMatchers.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +26,9 @@ import org.junit.jupiter.api.TestReporter;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
-import com.project.mathlib.Base;
+import com.project.mathlib.exceptions.DivisionToZeroArithmeticException;
+import com.project.mathlib.exceptions.NullParameterException;
+import com.project.mathlib.main.Base;
 
 
 //Every scenario different test methods -independent from others
@@ -110,12 +116,16 @@ public class BaseTest {
 	}
 	
 	@Tag("Exception")
-	@Test
+	@Test()
 	@DisplayName("Divide by Zero Test For Division (int/0)")
 	void testDivideByZero() {
 		Integer numerator = (int) Math.random();
 	
-		 assertThrows(ArithmeticException.class, ()-> base.division(numerator,0));
+		 assertThrows(DivisionToZeroArithmeticException.class, ()-> base.division(numerator,0));
+		 catchException(base).division(10,0);
+			
+		 assertTrue(caughtException() instanceof DivisionToZeroArithmeticException);
+	     assertEquals("Division to Zero is Undefined.", caughtException().getMessage());
 	}
 	
 	
@@ -132,13 +142,13 @@ public class BaseTest {
 	Mockito.when(baseM.division(null, null)).thenThrow(new NullPointerException());
 	
 	
-	doThrow(new NullPointerException()).when(baseM).division(anyInt(),eq(null));
-	doThrow(new NullPointerException()).when(baseM).division(eq(null), anyInt());
-	doThrow(new NullPointerException()).when(baseM).division(eq(null), eq(null));
+	doThrow(new NullParameterException()).when(baseM).division(anyInt(),eq(null));
+	doThrow(new NullParameterException()).when(baseM).division(eq(null), anyInt());
+	doThrow(new NullParameterException()).when(baseM).division(eq(null), eq(null));
 
-	assertThrows(NullPointerException.class,()-> baseM.division(5, null));
-	assertThrows(NullPointerException.class,()-> baseM.division(null, 5));
-	assertThrows(NullPointerException.class,()-> baseM.division(null, null));
+	assertThrows(NullParameterException.class,()-> baseM.division(5, null));
+	assertThrows(NullParameterException.class,()-> baseM.division(null, 5));
+	assertThrows(NullParameterException.class,()-> baseM.division(null, null));
 
 	}
 	

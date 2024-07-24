@@ -1,6 +1,6 @@
-package com.project.mathlib;
+package com.project.mathlib.main;
 
-import java.lang.Math;
+
 
 public class Power {
 	public double power(int base,int exponent) {

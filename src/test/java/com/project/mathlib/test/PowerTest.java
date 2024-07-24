@@ -1,10 +1,12 @@
-package com.project.test;
+package com.project.mathlib.test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static com.googlecode.catchexception.CatchException.*;
 
 import com.googlecode.catchexception.throwable.*;
+import com.project.mathlib.main.Power;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestReporter;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-
-import com.project.mathlib.Power;
 
 @SuppressWarnings("unused")
 public class PowerTest {
@@ -34,7 +34,7 @@ public class PowerTest {
 	
 	@Test
 	@DisplayName("Power Test For Positive Exponents(^)")
-	void positiveExponentPowerTest() throws Exception{
+	void positiveExponentPowerTest(){
 	assertAll(
 			() -> assertEquals(1,obj.power(1534, 0),"Power Test Failed"),
 			() -> assertEquals(39,obj.power(39, 1),"Power Test Failed"),
@@ -43,7 +43,7 @@ public class PowerTest {
 	}
 	@Test
 	@DisplayName("Power Test For Negative Exponents")
-	void negativeExponentsPowerTest() throws Exception{
+	void negativeExponentsPowerTest(){
 		assertAll(
 				() -> assertEquals(0.02631578947368421,obj.power(38, -1),"Power Test Failed"),
 				() -> assertEquals(0.015625,obj.power(2, -6),"Power Test Failed")
@@ -67,7 +67,7 @@ public class PowerTest {
 	}
 	@Test
 	@DisplayName("Power Test For Zero Exponent & Zero Base (0^0)")
-	void zeroExponentAndZeroBase() throws Exception{	
+	void zeroExponentAndZeroBase(){	
 		catchException(obj).power(0,0);
 		assertTrue(caughtException() instanceof ArithmeticException);
 		assertEquals("0^0 is undefined.",caughtException().getMessage());

@@ -1,4 +1,4 @@
-package com.project.test;
+package com.project.mathlib.test;
 
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -14,7 +14,8 @@ import org.junit.jupiter.api.TestReporter;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
-import com.project.mathlib.Factorial;
+import com.project.mathlib.main.Factorial;
+
 import static org.mockito.Mockito.when;
 
 import org.hamcrest.Matchers;

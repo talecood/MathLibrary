@@ -1,4 +1,4 @@
-package com.project.test;
+package com.project.mathlib.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import com.project.mathlib.Polynomial;
+import com.project.mathlib.main.Polynomial;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class PolynomialTests {

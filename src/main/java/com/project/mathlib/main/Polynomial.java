@@ -1,4 +1,4 @@
-package com.project.mathlib;
+package com.project.mathlib.main;
 
 public class Polynomial {
 	
@@ -15,27 +15,27 @@ public class Polynomial {
 
 
 	public String toString() {
-	    String result = "";
+	    StringBuilder sb = new StringBuilder();
 
 	    for (int i = coefficent.length - 1; i >= 0; i--) {
 	        if (coefficent[i] != 0) {  // Check if the element is non-zero
-	            if (result.isEmpty()) {
+	            if (sb.isEmpty()) {
 	                // Directly add the first non-zero coefficient
-	                result += coefficent[i];
+	                sb.append(coefficent[i]);
 	            } else {
 	                // For subsequent coefficients, add + or -
-	                if (coefficent[i] > 0) result += " + " + coefficent[i];
-	                else result += " - " + Math.abs(coefficent[i]);
+	                if (coefficent[i] > 0) sb.append(" + "+Math.abs(coefficent[i]));
+	                else sb.append(" - "+Math.abs(coefficent[i]));
 	            }
 	            if (i > 0) {  // Prevent adding "x" to the constant term
-	                result += "x";
+	                sb.append("x");
 	                if (i > 1) {  // Add the power for exponents greater than 1
-	                    result += "^" + i;
+	                    sb.append("^"+i);
 	                }
 	            }
 	        }
 	    }
-	    return result;
+	    return sb.toString();
 	}
 
 	

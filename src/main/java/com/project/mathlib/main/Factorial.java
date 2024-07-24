@@ -1,4 +1,4 @@
-package com.project.mathlib;
+package com.project.mathlib.main;
 
 public class Factorial {
 	public int factorial(int a) {

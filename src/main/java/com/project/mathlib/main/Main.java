@@ -1,4 +1,4 @@
-package com.project.mathlib;
+package com.project.mathlib.main;
 
 public class Main {
 
@@ -25,20 +25,20 @@ public class Main {
 	polinom.function(polinom, 3);	//Basit Fonksiyon çýktýsý.
 	
 	
-	
-	Matrix matrix1= new Matrix(3,3);
-	Matrix matrix2 = new Matrix(3,3);
-	
-	matrix1.setMatrixValue(1,1,5);
-	matrix1.setMatrixValue(1,2,1);
-	matrix1.setMatrixValue(1,0,2);
-	
-	matrix2.setMatrixValue(1,0,5);
-	matrix2.setMatrixValue(1,1,4);
-	matrix2.setMatrixValue(1,2,2);
-
 	//System.out.println(matrix1.MatrixTransactions(matrix2)); // BURADA SORUN VAR The method MatrixTransactions(int[][]) in the type Matrix is not applicable for the arguments (Matrix)
 
+	
+	int[][] m1 = 
+				{{16, 14, 6},
+                {10, 0, 0},
+                {4, 10, 8}};
+	
+	Matrix matrix1 = new Matrix(m1);
+	
+	System.out.println(matrix1.toString());
+	
+	System.out.println(matrix1.determinant(m1, 3));
+                
 	
 	}
 }

@@ -1,6 +1,5 @@
-package com.project.test;
+package com.project.mathlib.test;
 
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestReporter;
 
-import com.project.mathlib.Area;
+import com.project.mathlib.main.Area;
 
 public class AreaTest {
 	Area objectArea= new Area();
