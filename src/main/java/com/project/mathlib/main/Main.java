@@ -28,10 +28,10 @@ public class Main {
 	//System.out.println(matrix1.MatrixTransactions(matrix2)); // BURADA SORUN VAR The method MatrixTransactions(int[][]) in the type Matrix is not applicable for the arguments (Matrix)
 
 	
-	int[][] m1 = 
-				{{16, 14, 6},
-                {10, 0, 0},
-                {4, 10, 8}};
+	Double[][] m1 = 
+				{{16., 14., 6.},
+                {10., 0., 0.},
+                {4., 10., 8.}};
 	
 	Matrix matrix1 = new Matrix(m1);
 	
