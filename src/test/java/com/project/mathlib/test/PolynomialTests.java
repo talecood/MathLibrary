@@ -2,16 +2,24 @@ package com.project.mathlib.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestReporter;
+
+import com.project.mathlib.exceptions.InvalidParameterException;
 import com.project.mathlib.main.Polynomial;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class PolynomialTests {
+class PolynomialTests {
 
 	Polynomial poly;
 	Polynomial poly1;
@@ -19,13 +27,12 @@ public class PolynomialTests {
 	TestInfo testinfo;
 	TestReporter testreporter;
 	
-	@SuppressWarnings("unused")
 	@BeforeAll
 	void setUp(TestInfo testinfo,TestReporter testreporter) {
-	double[] coefficents = new double[]
-			{0,1,2,3,4,5};
-	double[] coefficents2 = new double[]
-			{2.3,-3.1,0,5.1,-9.6};
+	Double[] coefficents = new Double[]
+			{0.,1.,2.,3.,4.,5.};
+	Double[] coefficents2 = new Double[]
+			{2.3,-3.1,0.,5.1,-9.6};
 	
 	this.testinfo = testinfo;
 	this.testreporter = testreporter;
@@ -35,20 +42,50 @@ public class PolynomialTests {
 	  testreporter.publishEntry("Running " + testinfo.getDisplayName() + " with tags " + testinfo.getTags());
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Test
-	@DisplayName("Function Test")
+	@DisplayName("Function Valid Test")
 	void Should_Return_ValueOfFunction_For_Parameter() {
 		assertAll(
-				() -> assertEquals(0.0, poly.function(poly,0),"Function returned wrong value"),
-				() -> assertEquals(15.0, poly.function(poly,1),"Function returned wrong value"),
-				() -> assertEquals(181896.0, poly.function(poly,8),"Function returned wrong value"),
+				() -> assertEquals(0.0, poly.function(0.),"Function returned wrong value"),
+				() -> assertEquals(15.0, poly.function(1.),"Function returned wrong value"),
+				() -> assertEquals(181896.0, poly.function(8.),"Function returned wrong value"),
 				
-				() -> assertEquals(2.3, poly1.function(poly1,0),"Function returned wrong value"),
-				() -> assertEquals(-5.3, poly1.function(poly1,1),"Function returned wrong value"),
-				() -> assertEquals(-36732.9, poly1.function(poly1,8),"Function returned wrong value")
+				() -> assertEquals(2.3, poly1.function(0.),"Function returned wrong value"),
+				() -> assertEquals(-5.3, poly1.function(1.),"Function returned wrong value"),
+				() -> assertEquals(-36732.9, poly1.function(8.),"Function returned wrong value")
 			);
+		
+		
 	}
+	
+	@Test
+	@DisplayName("Function Invalid Parameter Test")
+	void shouldControlIfTheParameterInvalid() {	
+		
+		assertAll(
+				
+			() -> assertThrows(InvalidParameterException.class, () -> poly.function(null),
+					"Parameter is invalid(null or infinity)."),
+			() -> assertThrows(InvalidParameterException.class, () -> poly.function(Double.NEGATIVE_INFINITY),
+					"Parameter is invalid(null or infinity)."),
+			() -> assertThrows(InvalidParameterException.class, () -> poly.function(Double.POSITIVE_INFINITY),
+					"Parameter is invalid(null or infinity).")
+		);	
+	}
+	
+	@Test
+	@DisplayName("Function Invalid Coefficients Test")
+	void shouldCheckIfThePolynomialCoefficientsInvalid() {
+		Double[] invalidCoefficients = {null,3.,-1.,Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
+ 
+		Polynomial invalidPoly = new Polynomial(invalidCoefficients);
+
+		assertThrows(IllegalArgumentException.class , () -> invalidPoly.function(5.)
+				,"Coefficients are Invalid.");
+		
+	}
+	
+	
 	@Test
 	@DisplayName("toString() Test for Polynomial")
 	void Should_Return_StringVersion_Of_Polynomial() {
@@ -63,39 +100,69 @@ public class PolynomialTests {
 	}
 	
 	@Test
-	@DisplayName("Integral Test For Polynomial")
-	void Should_Return_Integral_Of_Polynomial() {
+	@DisplayName("integral Test For Polynomial")
+	void Should_Return_integral_Of_Polynomial() {
 		String expected = "0.8333333333333334x^6 + 0.8x^5 + 0.75x^4 + 0.6666666666666666x^3 + 0.5x^2";
-		String result = poly.Integral().toString();
+		String result = poly.integral().toString();
 		
 		String expected2 = "-1.92x^5 + 1.275x^4 - 1.55x^2 + 2.3x";
-		String result2 = poly1.Integral().toString();
+		String result2 = poly1.integral().toString();
 		
-		assertTrue(expected.equals(result),"Integral Test Failed");
-		assertTrue(expected2.equals(result2),"Integral Test Failed");
-		
-		
+		assertTrue(expected.equals(result),"integral Test Failed");
+		assertTrue(expected2.equals(result2),"integral Test Failed");
 		}
 	
 	@Test
-	@DisplayName("Derivative Test For Polynomial")
-	void Should_Return_Derivative_Of_Polynomial() {
+	@DisplayName("integral Test For Invalid Polynomial")
+	void shouldChechIfThePolynomialInvalidForintegral() {
+		
+		Double[] invalidCoefficients = {null,3.,-1.,Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
+		 
+		Polynomial invalidPoly = new Polynomial(invalidCoefficients);
+
+		assertThrows(IllegalArgumentException.class , () -> invalidPoly.integral()
+				,"Coefficient are Invalid.");	
+		
+	}
+	
+	
+	@Test
+	@DisplayName("derivative Test For Polynomial")
+	void Should_Return_derivative_Of_Polynomial() {
 		String expected = "25.0x^4 + 16.0x^3 + 9.0x^2 + 4.0x + 1.0";
-		String result = poly.Derivative().toString();
+		String result = poly.derivative().toString();
 		
 		String expected2 = "-38.4x^3 + 15.299999999999999x^2 - 3.1";
-		String result2 = poly1.Derivative().toString();
+		String result2 = poly1.derivative().toString();
 		
-		assertTrue(expected.equals(result),"Derivative Test Failed");
+		assertTrue(expected.equals(result),"derivative Test Failed");
 		assertTrue(expected2.equals(result2),"toString() Test Failed");
 	}
+	
+	@Test
+	@DisplayName("derivative Test For Invalid Polynomial")
+	void shouldChechIfThePolynomialInvalidForderivative() {
+		
+		Double[] invalidCoefficients = {null,3.,-1.,Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY};
+		 
+		Polynomial invalidPoly = new Polynomial(invalidCoefficients);
+
+		assertThrows(IllegalArgumentException.class , () -> invalidPoly.derivative()
+				,"Coefficient are Invalid.");	
+		
+	}
+	
+	
 	/*@Test
-    @DisplayName("Definite Integral test for Polynomial")
-    void shouldReturnValueOfDefiniteIntegralDueToUpperandLowerBounds() {
+    @DisplayName("Definite integral test for Polynomial")
+    void shouldReturnValueOfDefiniteintegralDueToUpperandLowerBounds() {
         assertAll(
         		//assertEqual Causing Problems here
-            () -> assertEquals(11976.94285, poly.definiteIntegral(poly.Integral(), 1, 5)),
-            () -> assertEquals(-1726.32, poly1.definiteIntegral(poly1.Integral(), -2, 4))
+            () -> assertEquals(11976.94285, poly.definiteintegral(poly.integral(), 1, 5)),
+            () -> assertEquals(-1726.32, poly1.definiteintegral(poly1.integral(), -2, 4))
+            
+            
+            
         );
     }*/
 }

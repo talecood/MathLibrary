@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import org.hamcrest.number.IsNaN;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -19,6 +17,7 @@ import org.junit.jupiter.api.TestReporter;
 
 import com.project.mathlib.exceptions.MatrixCannotBeMultipliedException;
 import com.project.mathlib.exceptions.MatrixDeterminantInvalidMatrixException;
+import com.project.mathlib.exceptions.MatrixIdentityInvalidMatrixException;
 import com.project.mathlib.exceptions.MatrixsCannotBeAdditionException;
 import com.project.mathlib.exceptions.MatrixsCannotBeSubtractedException;
 import com.project.mathlib.exceptions.NullParameterException;
@@ -365,5 +364,94 @@ class MatrixTest {
 		.isNaN();
     	
     }
+    
+    
+   @Tag("Matrix Inverse")
+   @DisplayName("Identity Matrix Test for 4x4 Matrix")
+   @Test
+   void testIdentityFor4x4Matrix() {
+	   Double[][] expectedIdentityMatrixCoef = {
+			   {1.,0.,0.,0.},
+			   {0.,1.,0.,0.},
+			   {0.,0.,1.,0.},
+			   {0.,0.,0.,1.}
+	   };
+	   
+	   
+	   resultMatrix = matrix5_4x4.identityMatrix();
+	   
+	   for(int i=0;i<expectedIdentityMatrixCoef.length;i++) {
+		   assertArrayEquals(expectedIdentityMatrixCoef[i],resultMatrix.getMatrix()[i]);
+	   }
+   }
+   
+   
+   @Tag("Matrix Inverse")
+   @DisplayName("Identity Matrix Test For Non Square Matrix")
+   @Test
+   void shouldControlIfMatrixIsNonSquare() {
+	   Double[][] nonSquareMatrixCoef = {
+			   {3., 0., -9., -2.},
+			   {5.,-2.,4.,8.},
+			   {1.,6.,-5.,7.}
+	   };
+	   
+	   Matrix nonSquareMatrix = new Matrix(nonSquareMatrixCoef);
+	   
+	   assertThrows(MatrixIdentityInvalidMatrixException.class, ()-> 
+	   
+	   			nonSquareMatrix.identityMatrix(),
+			   "Matrix must have an order of n x n to have an identity matrix.");
+   }
+   
+   public Matrix invalidMatrix11,invalidMatrix22,invalidMatrix33;
+   @Tag("Matrix Inverse")
+   @DisplayName("Identity Matrix Test For Invalid Parameters")
+   @Test
+   void testShouldControlParametersOfMatrixForIdentityOperation() {
+	   
+	   Double[][] invalidMatrix1 = {
+			   {null,null},
+			   {1.,null}
+	   };
+	   Double[][] invalidMatrix2 = {
+			   {Double.NEGATIVE_INFINITY,2.},
+			   {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}
+	   };
+	   Double[][] invalidMatrix3 = {
+			   {null,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+			   {Double.POSITIVE_INFINITY,null,Double.NEGATIVE_INFINITY},
+			   {Double.POSITIVE_INFINITY,null,(double) Double.MAX_EXPONENT}
+	   };
+   
+	   invalidMatrix11 = new Matrix(invalidMatrix1);
+	   invalidMatrix22 = new Matrix(invalidMatrix2);
+	   invalidMatrix33 = new Matrix(invalidMatrix3);
+	   
+	   
+	   assertAll(
+			   
+			   () ->  assertThrows(NullParameterException.class, () -> invalidMatrix11.identityMatrix(),
+					   "Parameter of Matrix Cannot be null or NaN."),
+			   
+			   () -> assertThrows(NullParameterException.class, () -> invalidMatrix22.identityMatrix(),
+					   "Parameter of Matrix Cannot be null or NaN."),
+			   
+			   () -> assertThrows(NullParameterException.class, () -> invalidMatrix33.identityMatrix(),
+					   "Parameter of Matrix Cannot be null or NaN.")
+			   
+			   );
+   
+   }
+   
+   //Inverse testleri yazýlacak
+   @Tag("Matrix Inverse")
+   @DisplayName("Inverse Matrix Test For Square Matrices")
+   @Test
+   void testShouldInverseTheMatrixCorrectly() {
+	   
+   }
+  
+   
 }
     	

@@ -1,8 +1,12 @@
 package com.project.mathlib.main;
 
 import com.project.mathlib.exceptions.MatrixsCannotBeAdditionException;
+
+import static org.mockito.ArgumentMatchers.anyString;
+
 import com.project.mathlib.exceptions.MatrixCannotBeMultipliedException;
 import com.project.mathlib.exceptions.MatrixDeterminantInvalidMatrixException;
+import com.project.mathlib.exceptions.MatrixIdentityInvalidMatrixException;
 import com.project.mathlib.exceptions.MatrixsCannotBeSubtractedException;
 import com.project.mathlib.exceptions.NullParameterException;
 
@@ -140,6 +144,8 @@ public class Matrix {
 		}
 		return new Matrix(newMatrix);
 	}
+	
+	
 	 // Determinant calculator
     //@return determinant of the input matrix
     public Double determinant(Double[][] matrix,int lengthOfMatrix) {
@@ -202,7 +208,102 @@ public class Matrix {
         }
         return det;
     }
+    
+    public Matrix identityMatrix() {
+    	Double[][] identityMatrix = new Double[matrixCoefficients.length][matrixCoefficients.length];
+    	
+    	//First of all, check if the matrix is not square.
+    			if(matrixCoefficients.length != matrixCoefficients[0].length) {
+    				throw new MatrixIdentityInvalidMatrixException
+    				("Matrix must have an order of n x n to have an identity matrix.");
+    			}
+    	//Secondly, check all values for any null or NaN value.
+    			for(int x=0;x<matrixCoefficients.length;x++) {
+    				for(int h =0;h<matrixCoefficients.length;h++) {
+    					if(isInvalid(matrixCoefficients[x][h])){
+    						throw new NullParameterException("Parameter of Matrix Cannot be null or NaN.");
+    					}
+    				}
+    			}
+    	
+    			for(int i=0;i<matrixCoefficients.length;i++) {
+    				for(int j=0;j<matrixCoefficients.length;j++) {
+    					if(i==j) {
+    						identityMatrix[i][j]=1.;
+    					}
+    					else {
+    						identityMatrix[i][j]=0.;
+    					}
+    				}
+    			}
+    			return new Matrix(identityMatrix);	
+    }
+
+    public Matrix inverseMatrix() {
+        int n = matrixCoefficients.length;
+        
+        // First of all, check if the matrix is not square.
+        if (n != matrixCoefficients[0].length) {
+            throw new MatrixIdentityInvalidMatrixException("Matrix must be square to have an inverse.");
+        }
+
+        Double[][] inverseMatrix = new Double[n][n];
+        
+        // Initialize the inverse matrix as an identity matrix
+      for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    inverseMatrix[i][j] = 1.0;
+                } else {
+                    inverseMatrix[i][j] = 0.0;
+                }
+            }
+       }
+
+        // Create a copy of the original matrix
+        Double[][] tempMatrix = new Double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                tempMatrix[i][j] = matrixCoefficients[i][j];
+            }
+        }
+
+        // Perform Gauss-Jordan elimination
+        for (int i = 0; i < n; i++) {
+            double divider = tempMatrix[i][i];
+
+            // Check for zero diagonal elements
+            if (divider == 0) {
+                throw new MatrixIdentityInvalidMatrixException("Matrix is singular and cannot be inverted.");
+            }
+
+            for (int j = 0; j < n; j++) {
+                tempMatrix[i][j] /= divider;
+                inverseMatrix[i][j] /= divider;
+            }
+
+            for (int x = 0; x < n; x++) {
+                if (x != i) {
+                    double factor = tempMatrix[x][i];
+                    for (int j = 0; j < n; j++) {
+                        tempMatrix[x][j] -= tempMatrix[i][j] * factor;
+                        inverseMatrix[x][j] -= inverseMatrix[i][j] * factor;
+                    }
+                }
+            }
+        }
+
+        return new Matrix(inverseMatrix);
+    }
+    
+    
+    
+    private boolean isInvalid(Double value) {
+    	return value == null || value == Double.NEGATIVE_INFINITY || value == Double.POSITIVE_INFINITY;
+    }
 }
+    
+
 
 
 
@@ -235,6 +336,52 @@ public class Matrix {
 
     return new Matrix(newMatrixForMultiplication);
 }*/
+
+
+
+/* public Matrix inverseMatrix() {
+ 	double divider,factor;
+ 	
+ 	//First of all, check if the matrix is not square.
+		if(matrixCoefficients.length != matrixCoefficients[0].length) { //Check if Matrix is not Square Matrix.
+			throw new MatrixIdentityInvalidMatrixException("Matrix must have an order of n x n to have an identity matrix.");
+		}
+ 	
+ 	Double[][] inverseMatrix = matrixCoefficients;
+ 	Matrix identityMatrix = this.identityMatrix();
+ 	
+		//For every line.
+ 	for(int i=0;i<matrixCoefficients.length;i++) {
+ 		//Stores matrixCoefficients[i][i] for calculations.
+ 		divider = matrixCoefficients[i][i]; 
+ 		
+ 		for(int j=0;j<matrixCoefficients.length;j++) {
+ 			//matrixCoefficients[i][j] = 1
+ 			matrixCoefficients[i][j] = matrixCoefficients[i][j]/divider;
+ 			
+ 			//Same calculation on identity matrix.
+ 			identityMatrix.matrixCoefficients[i][j]= identityMatrix.matrixCoefficients[i][j]/divider;
+ 		  
+ 		}
+ 		//For every line.
+ 		for(int x=0;x<matrixCoefficients.length;x++) {
+ 			//Control for not calculating in same line.
+ 			if(x!=i) {
+ 				factor = matrixCoefficients[x][i];
+ 				//For every column
+ 				for(int j=0;j<matrixCoefficients.length;j++) {
+ 					matrixCoefficients[x][j] = matrixCoefficients[x][j]-(matrixCoefficients[i][j]*factor);
+ 					
+ 					identityMatrix.matrixCoefficients[x][j] = identityMatrix.matrixCoefficients[x][j]
+ 							-(identityMatrix.matrixCoefficients[i][j]*factor);
+
+ 				}
+ 			}
+ 		}
+ 	}
+ 	return new Matrix(inverseMatrix);
+ 	
+ */
 
 
 
