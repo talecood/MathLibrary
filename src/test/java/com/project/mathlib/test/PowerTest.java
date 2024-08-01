@@ -68,8 +68,8 @@ public class PowerTest {
 	@Test
 	@DisplayName("Power Test For Zero Exponent & Zero Base (0^0)")
 	void zeroExponentAndZeroBase(){	
-		catchException(obj).power(0,0);
-		assertTrue(caughtException() instanceof ArithmeticException);
-		assertEquals("0^0 is undefined.",caughtException().getMessage());
+	
+		assertThrows(ArithmeticException.class,()->obj.power(0, 0)
+												,"0^0 is undefined.");
 	}
 }

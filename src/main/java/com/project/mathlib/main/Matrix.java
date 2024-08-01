@@ -9,23 +9,37 @@ import com.project.mathlib.exceptions.MatrixInverseInvalidMatrixException;
 import com.project.mathlib.exceptions.MatrixsCannotBeSubtractedException;
 import com.project.mathlib.exceptions.NullParameterException;
 
+/**
+ * nedim goktug tabak
+ * 1 Ağu 2024
+ */
 public class Matrix {
 
 	private Double[][] matrixCoefficients;
 
+	/**
+	 * @param newMatrix
+	 */
 	public Matrix(Double[][] newMatrix) {
 		this.matrixCoefficients = newMatrix;
 	}
 
-	//Setter and Getter
-	public Double[][] getMatrix() {
+	/**
+	 * @return the matrixCoefficients
+	 */
+	public Double[][] getMatrixCoefficients() {
 		return matrixCoefficients;
 	}
 
-	public void setMatrix(Double[][] matrix) {
-		this.matrixCoefficients = matrix;
+	/**
+	 * @param matrixCoefficients the matrixCoefficients to set
+	 */
+	public void setMatrixCoefficients(Double[][] matrixCoefficients) {
+		this.matrixCoefficients = matrixCoefficients;
 	}
-	
+
+
+
 	public void setMatrixValue(int rows,int columns,Double value) {
 		matrixCoefficients[rows][columns]=value;
 	}
@@ -77,10 +91,12 @@ public class Matrix {
 	
 	public Matrix matrixMultiplication(Matrix matrix2) {
 	    if (matrixCoefficients[0].length != matrix2.matrixCoefficients.length) {
-	        throw new MatrixCannotBeMultipliedException("A: Rows: " + matrixCoefficients[0].length + " did not match B: Columns " + matrix2.matrixCoefficients.length + ".");
+	        throw new MatrixCannotBeMultipliedException
+	        ("A: Rows: " + matrixCoefficients[0].length + " did not match B: Columns " + matrix2.matrixCoefficients.length + ".");
 	    }
 
-	    Double[][] newMatrixForMultiplication = new Double[matrixCoefficients.length][matrix2.matrixCoefficients[0].length];
+	    Double[][] newMatrixForMultiplication =
+	    		new Double[matrixCoefficients.length][matrix2.matrixCoefficients[0].length];
 	    
 	    //Cannot invoke "java.lang.Double.doubleValue()" because "newMatrixForMultiplication[i][j]" is null. Filling the new array with 0.
 	    for(int i =0;i<matrixCoefficients.length;i++) {
@@ -92,7 +108,8 @@ public class Matrix {
 	    for (int i = 0; i < matrixCoefficients.length; i++) { // aRow
 	        for (int j = 0; j < matrix2.matrixCoefficients[0].length; j++) { // bColumn
 	            for (int k = 0; k < matrixCoefficients[0].length; k++) { // aColumn
-	                newMatrixForMultiplication[i][j] += matrixCoefficients[i][k] * matrix2.matrixCoefficients[k][j];
+	                newMatrixForMultiplication[i][j] +=
+	                		matrixCoefficients[i][k] * matrix2.matrixCoefficients[k][j];
 	            }
 	        }
 	    }

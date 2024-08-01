@@ -82,6 +82,7 @@ class MatrixTest {
    } 
     
    @Nested
+   @DisplayName("Matrix and Matrix Operations")
    class MatrixAndMatrixOperations{
 	   @Tag("MatrixAndMatrixOperation")
 	    @DisplayName("Addition Test For Two Different Matrices")
@@ -103,7 +104,7 @@ class MatrixTest {
 	        
 	        //For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
 	        for (int i = 0; i < expectedMatrix.length; i++) {
-	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
 	        }
 	    }
 	    
@@ -128,7 +129,7 @@ class MatrixTest {
 	    	
 	    	 //For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
 	        for (int i = 0; i < expectedMatrix.length; i++) {
-	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
 	        }
 	    }
 	    
@@ -153,13 +154,14 @@ class MatrixTest {
 	    	
 	    	 //For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
 	        for (int i = 1; i < expectedMatrix.length; i++) {
-	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+	            assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
 	        }
 	    }
    }
     
     
     @Nested
+    @DisplayName("Matrix and Integer Operations")
     class MatrixAndIntegerOperations{
     	@Tag("MatrixAndIntegerOperation")
         @DisplayName("Addition Test For A Matrix and An Integer")
@@ -175,7 +177,7 @@ class MatrixTest {
         	
         	//For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
             for (int i = 1; i < expectedMatrix.length; i++) {
-                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
             }
         }
     	
@@ -194,7 +196,7 @@ class MatrixTest {
         	
         	//For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
             for (int i = 1; i < expectedMatrix.length; i++) {
-                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
             }
         }
         
@@ -213,7 +215,7 @@ class MatrixTest {
         	
         	//For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
             for (int i = 1; i < expectedMatrix.length; i++) {
-                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
             }
         }
         
@@ -232,7 +234,7 @@ class MatrixTest {
         	
         	//For 2D Arrays, we need to use assertArrayEquals 2 times for check every row.
             for (int i = 1; i < expectedMatrix.length; i++) {
-                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrix()[i]);
+                assertArrayEquals(expectedMatrix[i], resultMatrix.getMatrixCoefficients()[i]);
             }
         }
         
@@ -321,6 +323,7 @@ class MatrixTest {
     }
     
     @Nested
+    @DisplayName("Matrix Determinant Operations")
     class MatrixDeterminant{
     	@Tag("MatrixDeterminant")
         @DisplayName("Matrix Determinant Test For Null Parameters")
@@ -440,6 +443,7 @@ class MatrixTest {
     }
     
     @Nested
+    @DisplayName("Matrix Identity Operations")
     class MatrixIdentity{
     	@Tag("Matrix Identity")
     	   @DisplayName("Identity Matrix Test for 4x4 Matrix")
@@ -456,7 +460,7 @@ class MatrixTest {
     		   resultMatrix = matrix5_4x4.identityMatrix();
     		   
     		   for(int i=0;i<expectedIdentityMatrixCoef.length;i++) {
-    			   assertArrayEquals(expectedIdentityMatrixCoef[i],resultMatrix.getMatrix()[i]);
+    			   assertArrayEquals(expectedIdentityMatrixCoef[i],resultMatrix.getMatrixCoefficients()[i]);
     		   }
     	   }
     	   
@@ -488,6 +492,7 @@ class MatrixTest {
     }
     
     @Nested
+    @DisplayName("Matrix Inverse Operations")
     class MatrixInverse{
     	@Tag("Matrix Inverse")
     	   @DisplayName("Matrix Inverse Test For Non Square Matrices")
@@ -516,10 +521,10 @@ class MatrixTest {
     		   for (int i = 0; i < expectedMatrixCoef.length; i++) {
     	           // Convert Double[] to double[] to use delta decimal limiter.
     	           double[] expectedRow = new double[expectedMatrixCoef[i].length];
-    	           double[] resultRow = new double[resultMatrix.getMatrix()[i].length];
+    	           double[] resultRow = new double[resultMatrix.getMatrixCoefficients()[i].length];
     	           for (int j = 0; j < expectedMatrixCoef[i].length; j++) {
     	               expectedRow[j] = expectedMatrixCoef[i][j];
-    	               resultRow[j] = resultMatrix.getMatrix()[i][j];
+    	               resultRow[j] = resultMatrix.getMatrixCoefficients()[i][j];
     	           }
     	           assertArrayEquals(expectedRow, resultRow, delta);
     	       }

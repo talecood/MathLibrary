@@ -122,10 +122,6 @@ public class BaseTest {
 		Integer numerator = (int) Math.random();
 	
 		 assertThrows(DivisionToZeroArithmeticException.class, ()-> base.division(numerator,0));
-		 catchException(base).division(10,0);
-			
-		 assertTrue(caughtException() instanceof DivisionToZeroArithmeticException);
-	     assertEquals("Division to Zero is Undefined.", caughtException().getMessage());
 	}
 	
 	

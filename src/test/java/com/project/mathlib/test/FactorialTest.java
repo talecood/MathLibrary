@@ -56,9 +56,3 @@ public class FactorialTest {
 	
 	
 }
-
-
-
-
-
-//		ArithmeticException exception = assertThrows(ArithmeticException.class, () -> objM.factorial(intThat((ArgumentMatcher<Integer>) Matchers.lessThan(0))));

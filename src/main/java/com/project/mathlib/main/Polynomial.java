@@ -8,10 +8,9 @@ public class Polynomial {
 	
 	private Double[] coefficent; //0. Indexli eleman x^0, 1.Indexli eleman x^1...
 	
-	public Polynomial(Double[]coefficent)
-	{
-		this.coefficent = coefficent;
-	}
+	public Polynomial(Double[] coefficients) {
+        this.coefficent = coefficients;
+    }
 	
 	public Double getCoefficent(Double[] array,int i) {
 		return array[i];
@@ -105,12 +104,15 @@ public class Polynomial {
 		for(int i=coefficent.length-1;i>=0;i--) {
 			integralCoefficents[i+1]=coefficent[i]/(i+1);
 		}
+		
+		//constant term
+		integralCoefficents[0] = 0.;
+		
 		return new Polynomial(integralCoefficents);
 	}
 	
 	
 	public double definiteIntegral(Polynomial poly,int lowerBound,int upperBound) {
-		double result=0;
 		double upper=0;
 		double lower=0;
 		
@@ -128,8 +130,8 @@ public class Polynomial {
 			upper += poly.coefficent[i]*Math.pow(upperBound,i);
 			lower += poly.coefficent[i]*Math.pow(lowerBound,i);
 		}
-		result =upper-lower;
-		return result;
+		
+		return upper-lower;
 	}
 	
 	

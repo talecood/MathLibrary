@@ -14,15 +14,15 @@ public class Main {
 	//vector.setVectorValues();
 	//vector.vectorProduct();
 	
-	System.out.println(polinom.toString());		//Katsayýlarý Polinom Þeklinde Yazdýrýr.
+	System.out.println(polinom.toString());		//Katsayï¿½larï¿½ Polinom ï¿½eklinde Yazdï¿½rï¿½r.
 	
-	System.out.println(polinom.derivative().toString()); //Türev alýr
+	System.out.println(polinom.derivative().toString()); //Tï¿½rev alï¿½r
 	
-	System.out.println(polinom.integral().toString()+" +C"); //Belirsiz Ýntegral Alýr.
+	System.out.println(polinom.integral().toString()+" +C"); //Belirsiz ï¿½ntegral Alï¿½r.
 	
-	System.out.println(polinom.definiteIntegral(polinom.integral(), 1, 3)); // Belirli Ýntegral Alýr.
+	System.out.println(polinom.definiteIntegral(polinom.integral(), 1, 3)); // Belirli ï¿½ntegral Alï¿½r.
 	
-	polinom.function(3.);	//Basit Fonksiyon çýktýsý.
+	polinom.function(3.);	//Basit Fonksiyon ï¿½ï¿½ktï¿½sï¿½.
 	
 	
 	//System.out.println(matrix1.MatrixTransactions(matrix2)); // BURADA SORUN VAR The method MatrixTransactions(int[][]) in the type Matrix is not applicable for the arguments (Matrix)
