@@ -78,7 +78,7 @@ public class AreaTest {
 				);
 		
 		try {
-			assertEquals(78,5398,objectArea.circleArea(-5));
+			assertEquals(78,objectArea.circleArea(-5));
 		}
 		catch(Exception e) {
 			assertEquals(objectArea.POSITIVE_RADIUS,e.getMessage());

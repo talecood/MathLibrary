@@ -2,11 +2,10 @@ package com.project.mathlib.main;
 
 import com.project.mathlib.exceptions.MatrixsCannotBeAdditionException;
 
-import static org.mockito.ArgumentMatchers.anyString;
-
 import com.project.mathlib.exceptions.MatrixCannotBeMultipliedException;
 import com.project.mathlib.exceptions.MatrixDeterminantInvalidMatrixException;
 import com.project.mathlib.exceptions.MatrixIdentityInvalidMatrixException;
+import com.project.mathlib.exceptions.MatrixInverseInvalidMatrixException;
 import com.project.mathlib.exceptions.MatrixsCannotBeSubtractedException;
 import com.project.mathlib.exceptions.NullParameterException;
 
@@ -104,6 +103,18 @@ public class Matrix {
 	public Matrix matrixAddition(Double value) {
 		Double[][] newMatrix = new Double[matrixCoefficients.length][matrixCoefficients.length];
 		
+		for(int x=0;x<matrixCoefficients.length;x++) {
+			for(int h =0;h<matrixCoefficients.length;h++) {
+				if(isInvalid(matrixCoefficients[x][h])){
+					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+				}
+			}
+		}
+		
+		if(isInvalid(value)) {
+			throw new NullParameterException("Parameter value is Invalid.");
+		}
+		
 		for(int i =0;i<matrixCoefficients.length;i++) {
 			for(int j=0;j<matrixCoefficients.length;j++) {
 				newMatrix[i][j]=matrixCoefficients[i][j]+value;
@@ -114,6 +125,18 @@ public class Matrix {
 	
 	public Matrix matrixSubtraction(Double value) {
 		Double[][] newMatrix = new Double[matrixCoefficients.length][matrixCoefficients.length];
+		
+		for(int x=0;x<matrixCoefficients.length;x++) {
+			for(int h =0;h<matrixCoefficients.length;h++) {
+				if(isInvalid(matrixCoefficients[x][h])){
+					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+				}
+			}
+		}
+		
+		if(isInvalid(value)) {
+			throw new NullParameterException("Parameter value is Invalid.");
+		}
 		
 		for(int i =0;i<matrixCoefficients.length;i++) {
 			for(int j=0;j<matrixCoefficients.length;j++) {
@@ -126,6 +149,18 @@ public class Matrix {
 	public Matrix matrixMultiplication(Double value) {
 		Double[][] newMatrix = new Double[matrixCoefficients.length][matrixCoefficients.length];
 		
+		for(int x=0;x<matrixCoefficients.length;x++) {
+			for(int h =0;h<matrixCoefficients.length;h++) {
+				if(isInvalid(matrixCoefficients[x][h])){
+					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+				}
+			}
+		}
+		
+		if(isInvalid(value)) {
+			throw new NullParameterException("Parameter value is Invalid.");
+		}
+		
 		for(int i =0;i<matrixCoefficients.length;i++) {
 			for(int j=0;j<matrixCoefficients.length;j++) {
 				newMatrix[i][j]=matrixCoefficients[i][j]*value;
@@ -136,6 +171,18 @@ public class Matrix {
 	
 	public Matrix matrixDivision(Double value) {
 		Double[][] newMatrix = new Double[matrixCoefficients.length][matrixCoefficients.length];
+		
+		for(int x=0;x<matrixCoefficients.length;x++) {
+			for(int h =0;h<matrixCoefficients.length;h++) {
+				if(isInvalid(matrixCoefficients[x][h])){
+					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+				}
+			}
+		}
+		
+		if(isInvalid(value)) {
+			throw new NullParameterException("Parameter value is Invalid.");
+		}
 		
 		for(int i =0;i<matrixCoefficients.length;i++) {
 			for(int j=0;j<matrixCoefficients.length;j++) {
@@ -239,13 +286,22 @@ public class Matrix {
     			return new Matrix(identityMatrix);	
     }
 
+    
     public Matrix inverseMatrix() {
         int n = matrixCoefficients.length;
         
         // First of all, check if the matrix is not square.
         if (n != matrixCoefficients[0].length) {
-            throw new MatrixIdentityInvalidMatrixException("Matrix must be square to have an inverse.");
+            throw new MatrixInverseInvalidMatrixException("Matrix must be square to have an inverse.");
         }
+        
+        for(int x=0;x<matrixCoefficients.length;x++) {
+			for(int h =0;h<matrixCoefficients.length;h++) {
+				if(isInvalid(matrixCoefficients[x][h])){
+					throw new NullParameterException("Parameter of Matrix Cannot be null or NaN.");
+				}
+			}
+		}
 
         Double[][] inverseMatrix = new Double[n][n];
         
@@ -253,9 +309,9 @@ public class Matrix {
       for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (i == j) {
-                    inverseMatrix[i][j] = 1.0;
+                    inverseMatrix[i][j] = 1.;
                 } else {
-                    inverseMatrix[i][j] = 0.0;
+                    inverseMatrix[i][j] = 0.;
                 }
             }
        }
@@ -267,6 +323,13 @@ public class Matrix {
                 tempMatrix[i][j] = matrixCoefficients[i][j];
             }
         }
+        
+        Matrix controlMatrix = new Matrix(matrixCoefficients);
+        
+        if((controlMatrix.determinant(matrixCoefficients, controlMatrix.matrixCoefficients.length))==0) {
+        	throw new MatrixInverseInvalidMatrixException
+        	("Inverse Operation on Singular Matrices Cannot Be Done. (Determinant == 0)");
+        }
 
         // Perform Gauss-Jordan elimination
         for (int i = 0; i < n; i++) {
@@ -274,7 +337,8 @@ public class Matrix {
 
             // Check for zero diagonal elements
             if (divider == 0) {
-                throw new MatrixIdentityInvalidMatrixException("Matrix is singular and cannot be inverted.");
+                throw new MatrixIdentityInvalidMatrixException
+                ("Matrix is singular and cannot be inverted.");
             }
 
             for (int j = 0; j < n; j++) {
@@ -299,7 +363,9 @@ public class Matrix {
     
     
     private boolean isInvalid(Double value) {
-    	return value == null || value == Double.NEGATIVE_INFINITY || value == Double.POSITIVE_INFINITY;
+    		return value == null 
+    		|| value == Double.NEGATIVE_INFINITY 
+    		|| value == Double.POSITIVE_INFINITY;
     }
 }
     
