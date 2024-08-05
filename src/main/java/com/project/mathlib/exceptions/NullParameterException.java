@@ -1,7 +1,7 @@
 package com.project.mathlib.exceptions;
 
 @SuppressWarnings("serial")
-public class NullParameterException extends NullPointerException{
+public class NullParameterException extends RuntimeException{
 	
 	public NullParameterException() {}
 	

@@ -1,7 +1,7 @@
 package com.project.mathlib.exceptions;
 
 @SuppressWarnings("serial")
-public class DivisionToZeroArithmeticException extends ArithmeticException{
+public class DivisionToZeroArithmeticException extends RuntimeException{
 	
 	public DivisionToZeroArithmeticException() {}
 	

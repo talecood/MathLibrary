@@ -1,9 +1,7 @@
 package com.project.mathlib.main;
 
 public class Area {
-	public Area() {
-   // TODO To create a Object 
- }
+
 	public static final double PI= 3.141592653589793;
 	public static final String POSITIVE_RADIUS = "Value must be a positive radius.";
 	public static final String POSITIVE_HEIGHT = "Value must be a positive height.";

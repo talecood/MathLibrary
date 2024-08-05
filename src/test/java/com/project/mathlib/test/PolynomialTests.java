@@ -4,10 +4,6 @@ package com.project.mathlib.test;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
-
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,8 +83,8 @@ class PolynomialTests {
         String expected2 = "-9.6x^4 + 5.1x^3 - 3.1x + 2.3";
         String result2 = poly1.toString();
 
-        assertTrue(expected.equals(result), "toString() Test Failed");
-        assertTrue(expected2.equals(result2), "toString() Test Failed");
+        assertEquals(expected,result, "toString() Test Failed");
+        assertEquals(expected2,result2, "toString() Test Failed");
     }
 
     @Test
@@ -99,14 +95,10 @@ class PolynomialTests {
     	Polynomial coef1 = poly1.integral();		
     	
         String expected = "0.8333333333333334x^6 + 0.8x^5 + 0.75x^4 + 0.6666666666666666x^3 + 0.5x^2";
-        String result = coef.toString();
-
-        String expected2 = "-1.92x^5 + 1.275x^4 - 1.55x^2 + 2.3x";
-        String result2 = coef1.toString();
-
-        assertTrue(expected.equals(coef.toString()), "integral Test Failed");
-        assertTrue(expected2.equals(coef1.toString()), "integral Test Failed");
-    }
+        String expected1 = "-1.92x^5 + 1.275x^4 - 1.55x^2 + 2.3x";
+        assertEquals(expected,coef.toString(), "integral Test Failed");
+        assertEquals(expected1,coef1.toString(), "integral Test Failed");  
+        }
 
     @Test
     @DisplayName("integral Test For Invalid Polynomial")
@@ -124,11 +116,11 @@ class PolynomialTests {
         String expected = "25.0x^4 + 16.0x^3 + 9.0x^2 + 4.0x + 1.0";
         String result = poly.derivative().toString();
 
-        String expected2 = "-38.4x^3 + 15.299999999999999x^2 - 3.1";
-        String result2 = poly1.derivative().toString();
+        String expected1 = "-38.4x^3 + 15.299999999999999x^2 - 3.1";
+        String result1 = poly1.derivative().toString();
 
-        assertTrue(expected.equals(result), "derivative Test Failed");
-        assertTrue(expected2.equals(result2), "toString() Test Failed");
+        assertEquals(expected,result, "derivative Test Failed");
+        assertEquals(expected1,result1, "derivative Test Failed");
     }
 
     @Test

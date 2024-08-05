@@ -19,15 +19,11 @@ public class Polynomial {
 
 	public String toString() {
 	    StringBuilder sb = new StringBuilder();
-
-	    for(int i=0;i<coefficent.length;i++) {
-			if(isInvalid(coefficent[i])) {
-				throw new IllegalArgumentException(INVALID_POLYNOMIAL);
-			}
-		}
 	    
 	    for (int i = coefficent.length - 1; i >= 0; i--) {
-	    	
+	    	if(isInvalid(coefficent[i])) {
+				throw new IllegalArgumentException(INVALID_POLYNOMIAL);
+			}
 	        if (coefficent[i] != 0) {  // Check if the element is non-zero
 	        	
 	            if (sb.isEmpty()) {

@@ -1,13 +1,7 @@
 package com.project.mathlib.main;
 
-import com.project.mathlib.exceptions.MatrixsCannotBeAdditionException;
+import com.project.mathlib.exceptions.*;
 
-import com.project.mathlib.exceptions.MatrixCannotBeMultipliedException;
-import com.project.mathlib.exceptions.MatrixDeterminantInvalidMatrixException;
-import com.project.mathlib.exceptions.MatrixIdentityInvalidMatrixException;
-import com.project.mathlib.exceptions.MatrixInverseInvalidMatrixException;
-import com.project.mathlib.exceptions.MatrixsCannotBeSubtractedException;
-import com.project.mathlib.exceptions.NullParameterException;
 
 /**
  * nedim goktug tabak
@@ -15,6 +9,10 @@ import com.project.mathlib.exceptions.NullParameterException;
  */
 public class Matrix {
 
+	private static final String MATRIX_NON_SQUARE = "Matrix must have an order of n x n to calculate the operation.";
+	private static final String MATRIX_INVALID_COEFFICIENTS = "Matrix Coefficients Cannot be null or NaN.";
+	private static final String MATRIX_INVALID_PARAMETERS = "Parameter of Matrix Cannot be null or NaN.";
+	
 	private Double[][] matrixCoefficients;
 
 	/**
@@ -123,13 +121,13 @@ public class Matrix {
 		for(int x=0;x<matrixCoefficients.length;x++) {
 			for(int h =0;h<matrixCoefficients.length;h++) {
 				if(isInvalid(matrixCoefficients[x][h])){
-					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+					throw new NullParameterException(MATRIX_INVALID_COEFFICIENTS);
 				}
 			}
 		}
 		
 		if(isInvalid(value)) {
-			throw new NullParameterException("Parameter value is Invalid.");
+			throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
 		}
 		
 		for(int i =0;i<matrixCoefficients.length;i++) {
@@ -146,13 +144,13 @@ public class Matrix {
 		for(int x=0;x<matrixCoefficients.length;x++) {
 			for(int h =0;h<matrixCoefficients.length;h++) {
 				if(isInvalid(matrixCoefficients[x][h])){
-					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+					throw new NullParameterException(MATRIX_INVALID_COEFFICIENTS);
 				}
 			}
 		}
 		
 		if(isInvalid(value)) {
-			throw new NullParameterException("Parameter value is Invalid.");
+			throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
 		}
 		
 		for(int i =0;i<matrixCoefficients.length;i++) {
@@ -169,7 +167,7 @@ public class Matrix {
 		for(int x=0;x<matrixCoefficients.length;x++) {
 			for(int h =0;h<matrixCoefficients.length;h++) {
 				if(isInvalid(matrixCoefficients[x][h])){
-					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+					throw new NullParameterException(MATRIX_INVALID_COEFFICIENTS);
 				}
 			}
 		}
@@ -192,13 +190,13 @@ public class Matrix {
 		for(int x=0;x<matrixCoefficients.length;x++) {
 			for(int h =0;h<matrixCoefficients.length;h++) {
 				if(isInvalid(matrixCoefficients[x][h])){
-					throw new NullParameterException("Matrix Coefficients Cannot be null or NaN.");
+					throw new NullParameterException(MATRIX_INVALID_COEFFICIENTS);
 				}
 			}
 		}
 		
 		if(isInvalid(value)) {
-			throw new NullParameterException("Parameter value is Invalid.");
+			throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
 		}
 		
 		for(int i =0;i<matrixCoefficients.length;i++) {
@@ -225,14 +223,14 @@ public class Matrix {
 		
 		//First of all, check if the matrix is not square.
 		if(matrixCoefficients.length != matrixCoefficients[0].length) { //Check if Matrix is not Square Matrix.
-			throw new MatrixDeterminantInvalidMatrixException("Matrix must have an order of n x n to have a determinant.");
+			throw new MatrixDeterminantInvalidMatrixException(MATRIX_NON_SQUARE);
 		}
 		
 		//Then, control is there any null parameters inside matrix values.
-		for(int i=0;i<matrix.length;i++) {
-			for(int j=0;j<matrix.length;j++) {
+		for(int i=0;i<lengthOfMatrix;i++) {
+			for(int j=0;j<lengthOfMatrix;j++) {
 				if(matrix[i][j]==null) {
-					throw new NullParameterException("Parameters of a Matrix Cannot Be Null Value.");
+					throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
 				}
 			}
 		}
@@ -246,19 +244,19 @@ public class Matrix {
 		}
         
 		//1x1 Matrix Determinant
-        if (matrix.length == 1) {
+        if (lengthOfMatrix == 1) {
             det = matrix[0][0];
             // Starts NxN Matrix Calculations
         } else {
-            Double[][] smallerMatrix = new Double[matrix.length - 1][matrix.length - 1];
-            for (int x = 0; x < matrix.length; x++) {
+            Double[][] smallerMatrix = new Double[lengthOfMatrix - 1][lengthOfMatrix - 1];
+            for (int x = 0; x < lengthOfMatrix; x++) {
                 p = 0;
                 q = 0;
-                for (int i = 1; i < matrix.length; i++) {
-                    for (int j = 0; j < matrix.length; j++) {
+                for (int i = 1; i < lengthOfMatrix; i++) {
+                    for (int j = 0; j < lengthOfMatrix; j++) {
                         if (j != x) {
                         	smallerMatrix[p][q++] = matrix[i][j];
-                            if (q % (matrix.length - 1) == 0) {
+                            if (q % (lengthOfMatrix - 1) == 0) {
                                 p++;
                                 q = 0;
                             }
@@ -266,7 +264,7 @@ public class Matrix {
                     }
                 }
                 //Recursive For Rows
-                det = det + matrix[0][x] * determinant(smallerMatrix,matrix.length - 1) * sign;
+                det = det + matrix[0][x] * determinant(smallerMatrix,lengthOfMatrix - 1) * sign;
                 sign = -sign;
             }
         }
@@ -279,13 +277,13 @@ public class Matrix {
     	//First of all, check if the matrix is not square.
     			if(matrixCoefficients.length != matrixCoefficients[0].length) {
     				throw new MatrixIdentityInvalidMatrixException
-    				("Matrix must have an order of n x n to have an identity matrix.");
+    				(MATRIX_NON_SQUARE);
     			}
     	//Secondly, check all values for any null or NaN value.
     			for(int x=0;x<matrixCoefficients.length;x++) {
     				for(int h =0;h<matrixCoefficients.length;h++) {
     					if(isInvalid(matrixCoefficients[x][h])){
-    						throw new NullParameterException("Parameter of Matrix Cannot be null or NaN.");
+    						throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
     					}
     				}
     			}
@@ -309,13 +307,13 @@ public class Matrix {
         
         // First of all, check if the matrix is not square.
         if (n != matrixCoefficients[0].length) {
-            throw new MatrixInverseInvalidMatrixException("Matrix must be square to have an inverse.");
+            throw new MatrixInverseInvalidMatrixException(MATRIX_NON_SQUARE);
         }
         
         for(int x=0;x<matrixCoefficients.length;x++) {
 			for(int h =0;h<matrixCoefficients.length;h++) {
 				if(isInvalid(matrixCoefficients[x][h])){
-					throw new NullParameterException("Parameter of Matrix Cannot be null or NaN.");
+					throw new NullParameterException(MATRIX_INVALID_PARAMETERS);
 				}
 			}
 		}
@@ -385,89 +383,3 @@ public class Matrix {
     		|| value == Double.POSITIVE_INFINITY;
     }
 }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*public Matrix matrixMultiplication(Matrix matrix2) {
-    if (matrixCoefficients[0].length != matrix2.matrixCoefficients.length) {
-        throw new MatrixCannotBeMultipliedException("A: Rows: " + matrixCoefficients[0].length + " did not match B: Columns " + matrix2.matrixCoefficients.length + ".");
-    }
-
-    Double[][] newMatrixForMultiplication = new Double[matrixCoefficients.length][matrix2.matrixCoefficients[0].length];
-
-    for (Double i = 0; i < matrixCoefficients.length; i++) { // aRow
-        for (Double j = 0; j < matrix2.matrixCoefficients[0].length; j++) { // bColumn
-            for (Double k = 0; k < matrixCoefficients[0].length; k++) { // aColumn
-                newMatrixForMultiplication[i][j] += matrixCoefficients[i][k] * matrix2.matrixCoefficients[k][j];
-            }
-        }
-    }
-
-    return new Matrix(newMatrixForMultiplication);
-}*/
-
-
-
-/* public Matrix inverseMatrix() {
- 	double divider,factor;
- 	
- 	//First of all, check if the matrix is not square.
-		if(matrixCoefficients.length != matrixCoefficients[0].length) { //Check if Matrix is not Square Matrix.
-			throw new MatrixIdentityInvalidMatrixException("Matrix must have an order of n x n to have an identity matrix.");
-		}
- 	
- 	Double[][] inverseMatrix = matrixCoefficients;
- 	Matrix identityMatrix = this.identityMatrix();
- 	
-		//For every line.
- 	for(int i=0;i<matrixCoefficients.length;i++) {
- 		//Stores matrixCoefficients[i][i] for calculations.
- 		divider = matrixCoefficients[i][i]; 
- 		
- 		for(int j=0;j<matrixCoefficients.length;j++) {
- 			//matrixCoefficients[i][j] = 1
- 			matrixCoefficients[i][j] = matrixCoefficients[i][j]/divider;
- 			
- 			//Same calculation on identity matrix.
- 			identityMatrix.matrixCoefficients[i][j]= identityMatrix.matrixCoefficients[i][j]/divider;
- 		  
- 		}
- 		//For every line.
- 		for(int x=0;x<matrixCoefficients.length;x++) {
- 			//Control for not calculating in same line.
- 			if(x!=i) {
- 				factor = matrixCoefficients[x][i];
- 				//For every column
- 				for(int j=0;j<matrixCoefficients.length;j++) {
- 					matrixCoefficients[x][j] = matrixCoefficients[x][j]-(matrixCoefficients[i][j]*factor);
- 					
- 					identityMatrix.matrixCoefficients[x][j] = identityMatrix.matrixCoefficients[x][j]
- 							-(identityMatrix.matrixCoefficients[i][j]*factor);
-
- 				}
- 			}
- 		}
- 	}
- 	return new Matrix(inverseMatrix);
- 	
- */
-
-
-
-
-
-

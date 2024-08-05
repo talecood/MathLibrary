@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyDouble;
-
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -13,9 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.*;
-
 import com.project.mathlib.exceptions.*;
 import com.project.mathlib.main.Matrix;
 
@@ -442,6 +437,7 @@ class MatrixTest {
         }
     }
     
+    
     @Nested
     @DisplayName("Matrix Identity Operations")
     class MatrixIdentity{
@@ -488,9 +484,40 @@ class MatrixTest {
     	   @Test
     	   void testShouldControlParametersOfMatrixForIdentityOperation() {
     		   
+    		   Double[][] invalidMatrix1 = {
+    				   {null,null},
+    				   {1.,null}
+    		   };
+    		   Double[][] invalidMatrix2 = {
+    				   {Double.NEGATIVE_INFINITY,2.},
+    				   {Double.POSITIVE_INFINITY,Double.NEGATIVE_INFINITY}
+    		   };
+    		   Double[][] invalidMatrix3 = {
+    				   {null,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
+    				   {Double.POSITIVE_INFINITY,null,Double.NEGATIVE_INFINITY},
+    				   {Double.POSITIVE_INFINITY,null,(double) Double.MAX_EXPONENT}
+    		   };
+    	   
+    		   invalidMatrix11 = new Matrix(invalidMatrix1);
+    		   invalidMatrix22 = new Matrix(invalidMatrix2);
+    		   invalidMatrix33 = new Matrix(invalidMatrix3);
+    		   
+    		   	assertAll(
+    				   
+    				   () ->  assertThrows(NullParameterException.class, () -> invalidMatrix11.identityMatrix(),
+    						   "Parameter of Matrix Cannot be null or NaN."),
+    				   
+    				   () -> assertThrows(NullParameterException.class, () -> invalidMatrix22.identityMatrix(),
+    						   "Parameter of Matrix Cannot be null or NaN."),
+    				   
+    				   () -> assertThrows(NullParameterException.class, () -> invalidMatrix33.identityMatrix(),
+    						   "Parameter of Matrix Cannot be null or NaN.")
+    				   
+    				   );
+    		   
     		   
     }
-    
+  }
     @Nested
     @DisplayName("Matrix Inverse Operations")
     class MatrixInverse{
@@ -513,8 +540,7 @@ class MatrixTest {
     		   								{-116/699.,7/233.,-56/699.,-25/699.},
     		   								{51/466.,45/466.,113/466.,13/466.}};
     		   
-    		   Matrix expectedMatrix = new Matrix(expectedMatrixCoef);
-    	       Matrix resultMatrix = matrix5_4x4.inverseMatrix();
+    		   Matrix resultMatrix = matrix5_4x4.inverseMatrix();
     		   
     		   Double delta= 1e-7;
     		   
@@ -573,12 +599,34 @@ class MatrixTest {
     	   @DisplayName("Matrix Inverse Test For Zero Matrix (Determinant = 0)")
     	   @Test
     	   void testInverseMatrixForDeterminantEqualsToZero() {
+    		   Double[][] Matrix1 = {
+    		            {1.0, 2.0, 3.0},
+    		            {4.0, 5.0, 6.0},
+    		            {7.0, 8.0, 9.0}
+    		        };
     		   
+    		   Double[][] Matrix2 = {
+    		            {1.0, 2.0, 3.0},
+    		            {2.0, 4.0, 6.0},
+    		            {3.0, 6.0, 9.0}
+    		        };
+    		   
+    		   
+    		   Matrix det0Matrix1 = new Matrix(Matrix1);
+    		   Matrix det0Matrix2 = new Matrix(Matrix2);
+    		   
+
+    		   assertThrows(MatrixInverseInvalidMatrixException.class, () -> det0Matrix1.inverseMatrix()
+    				   ,"Inverse Operation on Singular Matrices Cannot Be Done. (Determinant == 0)");
+    		   
+    		   assertThrows(MatrixInverseInvalidMatrixException.class, () -> det0Matrix2.inverseMatrix()
+    				   ,"Inverse Operation on Singular Matrices Cannot Be Done. (Determinant == 0)");
     	   }
-    }
+     }
+    	   
    
-   
-    }
-}
+  }
+
+
 
     	

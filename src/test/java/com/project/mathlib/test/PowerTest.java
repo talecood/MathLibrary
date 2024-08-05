@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestReporter;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 
 @SuppressWarnings("unused")
-public class PowerTest {
+class PowerTest {
 	Power obj = new Power();
 	TestInfo testinfo;
 	TestReporter testreporter;
@@ -28,7 +28,6 @@ public class PowerTest {
 	void afterReport(TestInfo testinfo,TestReporter testreporter) {
 		this.testinfo = testinfo;
 		this.testreporter = testreporter;
-		//System.out.println("Running "+testinfo.getDisplayName()+" with tags "+testinfo.getTags());
 		testreporter.publishEntry("Running "+testinfo.getDisplayName()+" with tags "+testinfo.getTags());
 	}
 	
