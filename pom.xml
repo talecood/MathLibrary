@@ -11,6 +11,16 @@
   
   
   <dependencies>
+  <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.23.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.23.1</version>
+  </dependency>
   <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
   <dependency>
     <groupId>org.junit.jupiter</groupId>
